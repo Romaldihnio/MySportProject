@@ -76,11 +76,27 @@ main{
 }
 .card-text{
   font-size: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  color: white;
   align-self: center;
   margin: 0 auto;
+}
+.card-a{
+  text-decoration: none;
+  color: #0bb05d;
+}
+.text-container{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.parameter-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.parameter-text{
+  font-size: 20px;
   color: white;
 }
 .filter-container{
@@ -98,10 +114,6 @@ main{
   border: none;
   border: 1px solid white;
   border-radius: 6px;
-}
-.card-a{
-  text-decoration: none;
-  color: #0bb05d;
 }
 
 
@@ -164,6 +176,9 @@ main{
   .card-text{
   font-size: 30px;
   }
+  .parameter-text{
+  font-size: 30px;
+  }
   .filter-container{
     flex-direction: row;
     justify-content: center;
@@ -188,6 +203,9 @@ main{
   width: 750px;
   }
   .card-text{
+  font-size: 35px;
+  }
+  .parameter-text{
   font-size: 35px;
   }
   .filter-item{
