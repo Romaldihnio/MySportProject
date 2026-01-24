@@ -62,11 +62,39 @@ main{
   align-items: center;
 }
 .card{
-  display: flex;
   width: 350px;
   border: 2px solid #1855ab;
   border-radius: 10px;
   margin-top: 20px;
+}
+.card-top{
+  display: flex;
+  border-bottom: 2px solid #1855ab;
+}
+.desc-btn-container{
+  display: flex;
+  justify-content: flex-end;
+}
+.desc-btn{
+  font-size: 15px;
+  color: white;
+  transition: 0.3s;
+  margin: 7px;
+}
+.desc-btn:hover{
+  color: #0bb05d;
+  cursor: pointer;
+}
+.card-bottom{
+    border-top: 2px solid #1855ab;
+}
+.card-bottom-list{
+  list-style: none;
+}
+.card-bottom-item{
+  color: white;
+  font-size: 15px;
+  margin: 7px;
 }
 .card-img{
   width: 100px;
@@ -93,11 +121,12 @@ main{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: flex-start;
+  margin-left: 10px;
 }
 .parameter-text{
-  font-size: 20px;
+  font-size: 15px;
   color: white;
+  list-style: none;
 }
 .filter-container{
   font-size: 10px;
@@ -106,7 +135,7 @@ main{
   align-items: center;
 }
 .filter-item{
-    width: 160px;
+  width: 160px;
   text-align: center;
   margin: 3px;
   background-color: #04244e;
@@ -114,8 +143,14 @@ main{
   border: none;
   border: 1px solid white;
   border-radius: 6px;
+  transition: 0.3s;
 }
-
+.hidden{
+  display: none;
+}
+.flex{
+  display: flex;
+}
 
 
 
@@ -177,7 +212,7 @@ main{
   font-size: 30px;
   }
   .parameter-text{
-  font-size: 30px;
+  font-size: 25px;
   }
   .filter-container{
     flex-direction: row;
@@ -186,6 +221,12 @@ main{
   .filter-item{
     width: 200px;
     font-size: 17px;
+  }
+  .desc-btn{
+    font-size: 20px;
+  }
+  .card-bottom-item{
+    font-size: 20px;
   }
 }
 @media(min-width:1024px){
@@ -206,10 +247,16 @@ main{
   font-size: 35px;
   }
   .parameter-text{
-  font-size: 35px;
+  font-size: 30px;
   }
   .filter-item{
     width: 250px;
     font-size: 20px;
+  }
+  .desc-btn{
+    font-size: 25px;
+  }
+  .card-bottom-item{
+    font-size: 25px;
   }
 }

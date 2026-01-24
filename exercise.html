@@ -19,7 +19,25 @@
         </div>
     </header>
     <div class="filter-container">
-          <input type="text" id="filter-name" placeholder="Фильтр по группе мышц" class="filter-item">
+          <select name="" id="filter-muscle" class="filter-item">
+            <option value="">Все мышцы</option>
+            <option value="abdominals">Пресс</option>
+            <option value="adductors">Аддукторы</option>
+            <option value="calves">Икроножная мышца</option>
+            <option value="forearms">Предплечья</option>
+            <option value="hamstrings">Бедра</option>
+            <option value="lower_back">Нижняя часть спины</option>
+            <option value="neck">Шея</option>
+            <option value="traps">Верхняя часть спины</option>
+            <option value="abductors">Отводящая мышца</option>
+            <option value="biceps">Бицепс</option>
+            <option value="chest">Грудь</option>
+            <option value="glutes">Ягодицы</option>
+            <option value="lats">Широчайшая мышца</option>
+            <option value="middle_back">Середина спины</option>
+            <option value="quadriceps">Квадрицепс</option>
+            <option value="triceps">Трицепс</option>
+          </select>
           <select name="" id="filter-difficulty" class="filter-item">
             <option value="">Все сложности</option>
             <option value="beginner">Начинающий</option>
@@ -27,6 +45,7 @@
             <option value="expert">Эксперт</option>
           </select>
           <select name="" id="filter-type" class="filter-item">
+            <option value="">Все типы</option>
             <option value="cardio">Кардио</option>
             <option value="olympic_weightlifting">Тяжелая атлетика</option>
             <option value="plyometrics">Плиометрика</option>
@@ -38,13 +57,40 @@
     </div>
     <section class="card-container">
            <div class="card">
-                <img src="/resourses/images/exercise-logo.png" alt="diff_logo" class="card-img">
-                <div class="parameter-container">
-                    <p class="parameter-text">Название:</p>
-                    <p class="parameter-text">Группы мышц:</p>
-                    <p class="parameter-text">Сложность:</p>
+                <div class="card-top">
+                    <img src="/resourses/images/exercise-logo.png" alt="diff_logo" class="card-img">
+                    <ul class="parameter-container">
+                      <li class="parameter-text">Название:</li>
+                      <li class="parameter-text">Группы мышц:</li>
+                      <li class="parameter-text">Сложность:</li>
+                    </ul>
+                </div>
+                <div class="desc-btn-container">
+                    <p class="desc-btn">Показать/скрыть описание</p>
+                </div>
+                <div class="card-bottom hidden">
+                     <ul class="card-bottom-list">
+                        <li class="card-bottom-item">Тип:</li>
+                        <li class="card-bottom-item">Инструкции:</li>
+                        <li class="card-bottom-item">Оборудование:</li>
+                        <li class="card-bottom-item">Правила безопасности:</li>
+                     </ul>
                 </div>
            </div>
     </section>
+
+
+
+
+
+
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="jQuery.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
