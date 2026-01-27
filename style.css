@@ -8,7 +8,7 @@
 }
 body{
     width: 100%;
-    height: 1500px;
+    min-height: 1000px;
     font-family: main-font;
     background: linear-gradient(to bottom, #04244e , #010b1a );
 }
