@@ -1,16 +1,27 @@
 const api = "https://api.api-ninjas.com/v1/exercises"
 const api_key = "" //api ключ с exercises api
-const exercises = []
-const description_array = []
-const current_view = []
 const container = document.getElementById("cards")
 async function checkJson(response){
     if(!response.ok){
         const text = await response.text().catch(() => '')
-        throw new Error(response.status + " " + response.statusText + " " + text)
+        if(response.status === 400){
+            alert("Неправильный или пустой API ключ.")
+        }
+        throw new Error(response.status + text)
     }
     return response.json()
 }
+async function getData() {
+    const filtered = await fetch(api, {
+        method:"GET",
+        headers:{
+            "X-Api-Key": api_key
+        }
+    })
+    .then(response => checkJson(response))
+    displayExercises(filtered)
+}
+getData()
 function filtersChange(){
     const muscle_input = document.getElementById("filter-muscle")
     const difficulty_input = document.getElementById("filter-difficulty")
@@ -51,14 +62,24 @@ function renderExercise(exercise){
    const instructions = exercise.instructions
    const equipments = exercise.equipments
    const safetyInfo = exercise.safety_info
+   let img_src = ""
+   if(difficulty === "beginner"){
+    img_src = "/resourses/images/beginner.png"
+   }
+   if(difficulty === "intermediate"){
+    img_src = "/resourses/images/intermediate-logo.png"
+   }
+   if(difficulty === "expert"){
+    img_src = "/resourses/images/expert-logo.png"
+   }
    return`
    <div class="card">
                 <div class="card-top">
-                    <img src="/resourses/images/intermediate-logo.png" alt="diff_logo" class="card-img">
+                    <img src="${img_src}" alt="diff_logo" class="card-img">
                     <ul class="parameter-container">
-                      <li class="parameter-text">Название:${name}</li>
-                      <li class="parameter-text">Группы мышц:${muscle}</li>
-                      <li class="parameter-text">Сложность:${difficulty}</li>
+                      <li class="parameter-text">Название: ${name}</li>
+                      <li class="parameter-text">Группы мышц: ${muscle}</li>
+                      <li class="parameter-text">Сложность: ${difficulty}</li>
                     </ul>
                 </div>
                 <div class="desc-btn-container">
@@ -66,10 +87,10 @@ function renderExercise(exercise){
                 </div>
                 <div class="card-bottom hidden">
                      <ul class="card-bottom-list">
-                        <li class="card-bottom-item">Тип:${type}</li>
-                        <li class="card-bottom-item">Инструкции:${instructions}</li>
-                        <li class="card-bottom-item">Оборудование:${equipments}</li>
-                        <li class="card-bottom-item">Правила безопасности:${safetyInfo}</li>
+                        <li class="card-bottom-item">Тип: ${type}</li>
+                        <li class="card-bottom-item">Инструкции: ${instructions}</li>
+                        <li class="card-bottom-item">Оборудование: ${equipments}</li>
+                        <li class="card-bottom-item">Правила безопасности: ${safetyInfo}</li>
                      </ul>
                 </div>
            </div>
