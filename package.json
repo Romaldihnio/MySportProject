@@ -1,0 +1,24 @@
+{
+  "name": "mysportproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jQuery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Romaldihnio/MySportProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Romaldihnio/MySportProject/issues"
+  },
+  "homepage": "https://github.com/Romaldihnio/MySportProject#readme",
+  "dependencies": {
+    "translate": "^3.0.1"
+  }
+}

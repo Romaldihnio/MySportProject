@@ -52,7 +52,7 @@ main{
     display: flex;
     justify-content: center;
 }
-.about_text{
+.about-text{
     font-size: 20px;
     color: white;
 }
@@ -113,8 +113,6 @@ main{
   color: #0bb05d;
 }
 .text-container{
-  display: flex;
-  flex-direction: column;
   text-align: center;
 }
 .parameter-container{
@@ -140,7 +138,6 @@ main{
   margin: 3px;
   background-color: #04244e;
   color: white;
-  border: none;
   border: 1px solid white;
   border-radius: 6px;
   transition: 0.3s;
@@ -151,7 +148,9 @@ main{
 .flex{
   display: flex;
 }
-
+.error-text{
+  color: red;
+}
 
 
 
@@ -198,7 +197,7 @@ main{
   .nav-a{
     font-size: 20px;
   }
-  .about_text{
+  .about-text{
     font-size: 25px;
   }
   .card-img{
@@ -233,7 +232,7 @@ main{
   .nav-a{
     font-size: 25px;
   }
-  .about_text{
+  .about-text{
   font-size: 35px;
   }
   .card-img{

@@ -1,40 +1,34 @@
 const api = "https://api.api-ninjas.com/v1/exercises"
 const api_key = "" //api ключ с exercises api
-const container = document.getElementById("cards")
+const container = document.querySelector(".card-container")
+import translate from './node_modules/translate/index.min.js'
+translate.engine = 'google'//способ перевода(яндекс и deepl требуют ключа)
+const lang = 'ru' //язык для перевода
 async function checkJson(response){
+    if(api_key === ""){
+        container.innerHTML = `<p class="error-text">Пустой api ключ!</p>`
+    }
     if(!response.ok){
         const text = await response.text().catch(() => '')
-        if(response.status === 400){
-            alert("Неправильный или пустой API ключ.")
-        }
         throw new Error(response.status + text)
     }
     return response.json()
 }
-async function getData() {
-    const filtered = await fetch(api, {
-        method:"GET",
-        headers:{
-            "X-Api-Key": api_key
-        }
-    })
-    .then(response => checkJson(response))
-    displayExercises(filtered)
-}
 getData()
 function filtersChange(){
-    const muscle_input = document.getElementById("filter-muscle")
-    const difficulty_input = document.getElementById("filter-difficulty")
-    const type_input = document.getElementById("filter-type")
+    const muscle_input = document.querySelector("#filter-muscle")
+    const difficulty_input = document.querySelector("#filter-difficulty")
+    const type_input = document.querySelector("#filter-type")
 
-    muscle_input.addEventListener("change", filter)
-    difficulty_input.addEventListener("change", filter)
-    type_input.addEventListener("change", filter)
+    muscle_input.addEventListener("change", getData)
+    difficulty_input.addEventListener("change", getData)
+    type_input.addEventListener("change", getData)
 }
-async function filter(){
-    const muscle_value = document.getElementById("filter-muscle").value.trim()
-    const difficulty_value = document.getElementById("filter-difficulty").value.trim()
-    const type_value = document.getElementById("filter-type").value.trim()
+async function getData(){
+    container.innerHTML = ""
+    const muscle_value = document.querySelector("#filter-muscle").value.trim()
+    const difficulty_value = document.querySelector("#filter-difficulty").value.trim()
+    const type_value = document.querySelector("#filter-type").value.trim()
     const filtered = await fetch(api + `?type=${type_value}&muscle=${muscle_value}&difficulty=${difficulty_value}`, {
         method:"GET",
         headers:{
@@ -42,44 +36,58 @@ async function filter(){
         }
     })
     .then(response => checkJson(response))
-    displayExercises(filtered)
-}
-function displayExercises(view){
-    container.innerHTML = ""
-    const fragment = document.createDocumentFragment()
-    view.forEach(element => {
-        const wrapper = document.createElement("div")
-        wrapper.innerHTML = renderExercise(element).trim()
-        fragment.appendChild(wrapper.firstElementChild)
+    if(!filtered || filtered.length === 0){
+        container.innerHTML = `<p class="error-text">Ничего нет. Попробуйте другие фильтры.</p>`
+    }
+    filtered.forEach(element => {
+        getTranslatedExercises(element)
     });
-    container.appendChild(fragment)
 }
-function renderExercise(exercise){
-   const name = exercise.name
-   const type = exercise.type
-   const muscle = exercise.muscle
-   const difficulty = exercise.difficulty
-   const instructions = exercise.instructions
-   const equipments = exercise.equipments
-   const safetyInfo = exercise.safety_info
-   let img_src = ""
-   if(difficulty === "beginner"){
+async function getTranslatedExercises(text) {
+    let img_src = ""
+    if(text.difficulty === "beginner"){
     img_src = "/resourses/images/beginner.png"
-   }
-   if(difficulty === "intermediate"){
+    }
+    if(text.difficulty === "intermediate"){
     img_src = "/resourses/images/intermediate-logo.png"
-   }
-   if(difficulty === "expert"){
+    }
+    if(text.difficulty === "expert"){
     img_src = "/resourses/images/expert-logo.png"
    }
-   return`
-   <div class="card">
+    const translated = {
+        name: text.name,
+        type: await translateText(text.type),
+        muscle: await translateText(text.muscle),
+        difficulty: await translateText(text.difficulty),
+        difficulty_img: img_src,
+        instructions: await translateText(text.instructions),
+        equipments: await translateText(text.equipments),
+        safety_info: await translateText(text.safety_info)
+    }
+    renderExercises(translated)
+}
+async function translateText(text) {
+    if(!text || text.length === 0){
+        return "Ничего нет"
+    }
+    const textToTranslate = Array.isArray(text) ? text.join(", ") : text
+    try {
+        return await translate(textToTranslate, lang)
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+function renderExercises(exercise){
+    const fragment = document.createDocumentFragment()
+    const wrapper = document.createElement("div")
+    wrapper.innerHTML = `
+    <div class="card">
                 <div class="card-top">
-                    <img src="${img_src}" alt="diff_logo" class="card-img">
+                    <img src="${exercise.difficulty_img}" alt="diff_logo" class="card-img">
                     <ul class="parameter-container">
-                      <li class="parameter-text">Название: ${name}</li>
-                      <li class="parameter-text">Группы мышц: ${muscle}</li>
-                      <li class="parameter-text">Сложность: ${difficulty}</li>
+                      <li class="parameter-text">Название: ${exercise.name}</li>
+                      <li class="parameter-text">Группы мышц: ${exercise.muscle}</li>
+                      <li class="parameter-text">Сложность: ${exercise.difficulty}</li>
                     </ul>
                 </div>
                 <div class="desc-btn-container">
@@ -87,14 +95,16 @@ function renderExercise(exercise){
                 </div>
                 <div class="card-bottom hidden">
                      <ul class="card-bottom-list">
-                        <li class="card-bottom-item">Тип: ${type}</li>
-                        <li class="card-bottom-item">Инструкции: ${instructions}</li>
-                        <li class="card-bottom-item">Оборудование: ${equipments}</li>
-                        <li class="card-bottom-item">Правила безопасности: ${safetyInfo}</li>
+                        <li class="card-bottom-item">Тип: ${exercise.type}</li>
+                        <li class="card-bottom-item">Инструкции: ${exercise.instructions}</li>
+                        <li class="card-bottom-item">Оборудование: ${exercise.equipments}</li>
+                        <li class="card-bottom-item">Правила безопасности: ${exercise.safety_info}</li>
                      </ul>
                 </div>
            </div>
-   `
+    `
+    fragment.appendChild(wrapper)
+    container.appendChild(fragment)
 }
 (async () =>{
     filtersChange()
