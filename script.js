@@ -3,7 +3,7 @@ const api_key = "" //api ключ с exercises api
 const container = document.querySelector(".card-container")
 import translate from './node_modules/translate/index.min.js'
 translate.engine = 'google'//способ перевода(яндекс и deepl требуют ключа)
-const lang = 'ru' //язык для перевода
+let lang = 'ru' //язык для перевода
 async function checkJson(response){
     if(api_key === ""){
         container.innerHTML = `<p class="error-text">Пустой api ключ!</p>`
@@ -45,6 +45,7 @@ async function getData(){
 }
 async function getTranslatedExercises(text) {
     let img_src = ""
+    let type = ""
     if(text.difficulty === "beginner"){
     img_src = "/resourses/images/beginner.png"
     }
@@ -53,10 +54,15 @@ async function getTranslatedExercises(text) {
     }
     if(text.difficulty === "expert"){
     img_src = "/resourses/images/expert-logo.png"
-   }
+    }
+    if(text.type === "olympic_weightlifting"){
+    type = "тяжелая атлетика"
+    }else{
+    type = await translateText(text.type)
+    }
     const translated = {
         name: text.name,
-        type: await translateText(text.type),
+        type: type,
         muscle: await translateText(text.muscle),
         difficulty: await translateText(text.difficulty),
         difficulty_img: img_src,
