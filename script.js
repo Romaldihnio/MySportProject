@@ -10,6 +10,7 @@ async function checkJson(response){
     }
     if(!response.ok){
         const text = await response.text().catch(() => '')
+        alert(response.status + text)
         throw new Error(response.status + text)
     }
     return response.json()
